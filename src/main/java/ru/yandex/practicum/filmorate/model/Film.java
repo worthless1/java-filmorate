@@ -23,6 +23,7 @@ public class Film {
     private boolean isValidDate() {
         return releaseDate.isAfter(LocalDate.of(1895, 12, 28));
     }
+
     private LocalDate releaseDate;
 
     @NotNull(message = "Duration cannot be null")

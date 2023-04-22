@@ -31,7 +31,7 @@ public class UserController {
         user.setId(id); // Set the id of the created user
 
         users.add(user);
-        log.debug("User added: {}", user.toString());
+        log.debug("User added: {}", user);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 

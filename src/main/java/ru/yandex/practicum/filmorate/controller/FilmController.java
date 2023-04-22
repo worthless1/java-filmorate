@@ -31,7 +31,7 @@ public class FilmController {
         film.setId(id); // Set the id of the created film
 
         films.add(film);
-        log.debug("Film added: {}", film.toString());
+        log.debug("Film added: {}", film);
         return ResponseEntity.status(HttpStatus.CREATED).body(film);
     }
 

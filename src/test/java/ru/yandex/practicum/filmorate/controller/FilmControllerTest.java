@@ -13,6 +13,7 @@ import ru.yandex.practicum.filmorate.model.Film;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class FilmControllerTest {
@@ -93,7 +94,10 @@ class FilmControllerTest {
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
+
+        assertNotNull(response.getBody());
         Film createdFilm = response.getBody();
+
         assertEquals("Test Film", createdFilm.getName());
         assertEquals("This is a test film description", createdFilm.getDescription());
         assertEquals(LocalDate.of(2020, 1, 1), createdFilm.getReleaseDate());
