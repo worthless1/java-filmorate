@@ -21,7 +21,7 @@ class UserControllerTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    void createUser_withValidData_returnsCreatedUser() {
+    void createUserWithValidDataReturnsCreatedUser() {
         User user = new User();
         user.setEmail("test@example.com");
         user.setLogin("testuser");
@@ -37,7 +37,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_withInvalidData_returnsBadRequest() {
+    void createUserWithInvalidDataReturnsBadRequest() {
         User user = new User();
         user.setEmail("invalidemail");
         user.setLogin("");
@@ -49,7 +49,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_WithInvalidEmail_ShouldReturnBadRequest() {
+    void createUserWithInvalidEmailShouldReturnBadRequest() {
         User user = new User();
         user.setEmail("invalid_email");
         user.setLogin("test_login");
@@ -62,7 +62,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_WithEmptyLogin_ShouldReturnBadRequest() {
+    void createUserWithEmptyLoginShouldReturnBadRequest() {
         User user = new User();
         user.setEmail("test_email@test.com");
         user.setLogin("");
@@ -75,7 +75,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_WithSpacesInLogin_ShouldReturnBadRequest() {
+    void createUserWithSpacesInLoginShouldReturnBadRequest() {
         User user = new User();
         user.setEmail("test_email@test.com");
         user.setLogin("test login");
@@ -88,7 +88,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_WithEmptyName_ShouldUseLoginAsName() {
+    void createUserWithEmptyNameShouldUseLoginAsName() {
         User user = new User();
         user.setEmail("test_email@test.com");
         user.setLogin("test_login");
@@ -103,7 +103,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_WithFutureBirthday_ShouldReturnBadRequest() {
+    void createUserWithFutureBirthdayShouldReturnBadRequest() {
         User user = new User();
         user.setEmail("test_email@test.com");
         user.setLogin("test_login");

@@ -22,7 +22,7 @@ class FilmControllerTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    void createFilm_shouldReturnBadRequest_whenFilmNameIsEmpty() {
+    void createFilmShouldReturnBadRequestWhenFilmNameIsEmpty() {
         Film film = new Film();
         film.setDescription("Test Description");
         film.setReleaseDate(LocalDate.of(2022, 1, 1));
@@ -34,7 +34,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void createFilm_shouldReturnBadRequest_whenFilmDescriptionIsTooLong() {
+    void createFilmShouldReturnBadRequestWhenFilmDescriptionIsTooLong() {
         Film film = new Film();
         film.setName("Test Film");
         film.setDescription("A".repeat(201));
@@ -47,7 +47,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void createFilm_shouldReturnBadRequest_whenReleaseDateIsBefore1895() {
+    void createFilmShouldReturnBadRequestWhenReleaseDateIsBefore1895() {
         Film film = new Film();
         film.setName("Test Film");
         film.setDescription("Test Description");
@@ -60,7 +60,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void createFilm_shouldReturnBadRequest_whenDurationIsNegative() {
+    void createFilmShouldReturnBadRequestWhenDurationIsNegative() {
         Film film = new Film();
         film.setName("Test Film");
         film.setDescription("Test Description");
@@ -73,7 +73,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void updateFilm_shouldReturnBadRequest_whenFilmNameIsEmpty() {
+    void updateFilmShouldReturnBadRequestWhenFilmNameIsEmpty() {
         Film film = new Film();
         film.setDescription("Test Description");
         film.setReleaseDate(LocalDate.of(2022, 1, 1));
