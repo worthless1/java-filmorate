@@ -1,8 +1,10 @@
 package ru.yandex.practicum.filmorate.excepton;
 
-public class FilmAlreadyExistException extends RuntimeException {
-    public FilmAlreadyExistException(String message) {
-        super(message);
-    }
+import org.springframework.http.HttpStatus;
 
+public class FilmAlreadyExistException extends FilmorateException {
+
+    public FilmAlreadyExistException(String errorMessage) {
+        super(errorMessage, HttpStatus.BAD_REQUEST);
+    }
 }

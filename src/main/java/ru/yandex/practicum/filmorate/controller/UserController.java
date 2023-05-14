@@ -1,16 +1,14 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.excepton.UserAlreadyExistException;
-import ru.yandex.practicum.filmorate.excepton.UserDoesntExistException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,36 +17,54 @@ import java.util.List;
 @Slf4j
 public class UserController {
 
-    private final List<User> users = new ArrayList<>();
+    private final UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
-        if (users.contains(user)) {
-            throw new UserAlreadyExistException("This user already exists");
-        }
-
-        int id = users.size() + 1; // Increment the size of the users list to set as the id
-        user.setId(id); // Set the id of the created user
-
-        users.add(user);
-        log.debug("User added: {}", user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    @ResponseStatus(HttpStatus.CREATED)
+    public User createUser(@Valid @RequestBody User user) {
+        return userService.create(user);
     }
 
     @PutMapping
-    public ResponseEntity<User> updateUser(@Valid @RequestBody User user) {
-        if (!users.remove(user)) {
-            throw new UserDoesntExistException("This user does not exists");
-        }
-
-        users.add(user);
-        log.debug("User updated: {}", user);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+    public User updateUser(@Valid @RequestBody User user) {
+        return userService.update(user);
     }
 
     @GetMapping
     public List<User> getUsers() {
-        return users;
+        return userService.getUsers();
+    }
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable int id) {
+        return userService.getUser(id);
+    }
+
+    @PutMapping("/{id}/friends/{friendId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addFriend(@PathVariable int id, @PathVariable int friendId) {
+        userService.addFriend(id, friendId);
+    }
+
+    @DeleteMapping("/{id}/friends/{friendId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeFriend(@PathVariable int id, @PathVariable int friendId) {
+        userService.removeFriend(id, friendId);
+    }
+
+    @GetMapping("/{id}/friends")
+    public List<User> getFriends(@PathVariable int id) {
+        return userService.getFriends(id);
+    }
+
+    @GetMapping("/{id}/friends/common/{otherId}")
+    public List<User> getCommonFriends(@PathVariable int id, @PathVariable int otherId) {
+        return userService.getCommonFriends(id, otherId);
     }
 
 }

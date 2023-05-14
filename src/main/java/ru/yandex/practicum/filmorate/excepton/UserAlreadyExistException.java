@@ -1,8 +1,11 @@
 package ru.yandex.practicum.filmorate.excepton;
 
-public class UserAlreadyExistException extends RuntimeException {
-    public UserAlreadyExistException(String message) {
-        super(message);
+import org.springframework.http.HttpStatus;
+
+public class UserAlreadyExistException extends FilmorateException {
+
+    public UserAlreadyExistException(String errorMessage) {
+        super(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
 }
