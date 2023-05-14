@@ -12,7 +12,6 @@ public class FilmorateErrorHandler {
 
     @ExceptionHandler
     protected ResponseEntity<Object> handleFilmorateException(final FilmorateException ex) {
-        System.out.println("!Handler! " + ex.getErrorMessage() + " : " + ex.getHttpStatus());
         return ResponseEntity.status(ex.getHttpStatus()).body(Map.of("error message ", ex.getErrorMessage()));
     }
 }

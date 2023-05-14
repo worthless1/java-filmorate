@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.excepton.FilmDoesntExistException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
-import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.util.Comparator;
 import java.util.List;
@@ -15,12 +14,12 @@ import java.util.stream.Collectors;
 public class FilmService {
 
     private final FilmStorage filmStorage;
-    private final UserStorage userStorage;
+    private final UserService userService;
 
     @Autowired
-    public FilmService(FilmStorage filmStorage, UserStorage userStorage) {
+    public FilmService(FilmStorage filmStorage, UserService userService) {
         this.filmStorage = filmStorage;
-        this.userStorage = userStorage;
+        this.userService = userService;
     }
 
     public Film create(Film film) {
@@ -41,7 +40,7 @@ public class FilmService {
 
     public void addLike(int id, int userId) {
         Film film = filmStorage.getFilmById(id);
-        userStorage.getUserById(userId);
+        userService.getUser(userId);
         if (film != null) {
             film.getLikes().add(userId);
             filmStorage.updateFilm(film);
@@ -52,7 +51,7 @@ public class FilmService {
 
     public void removeLike(int id, int userId) {
         Film film = filmStorage.getFilmById(id);
-        userStorage.getUserById(userId);
+        userService.getUser(userId);
         if (film != null) {
             film.getLikes().remove(userId);
             filmStorage.updateFilm(film);
