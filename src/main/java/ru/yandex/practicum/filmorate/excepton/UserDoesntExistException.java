@@ -1,8 +1,11 @@
 package ru.yandex.practicum.filmorate.excepton;
 
-public class UserDoesntExistException extends RuntimeException {
-    public UserDoesntExistException(String message) {
-        super(message);
+import org.springframework.http.HttpStatus;
+
+public class UserDoesntExistException extends FilmorateException {
+
+    public UserDoesntExistException(String errorMessage) {
+        super(errorMessage, HttpStatus.NOT_FOUND);
     }
 
 }
