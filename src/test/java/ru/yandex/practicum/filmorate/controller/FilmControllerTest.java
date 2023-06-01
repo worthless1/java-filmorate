@@ -17,16 +17,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class FilmControllerTest {
-
     @Autowired
     private TestRestTemplate restTemplate;
 
     @Test
     void createFilmShouldReturnBadRequestWhenFilmNameIsEmpty() {
-        Film film = new Film();
-        film.setDescription("Test Description");
-        film.setReleaseDate(LocalDate.of(2022, 1, 1));
-        film.setDuration(-1);
+        Film film = Film.builder()
+                .description("Test Description")
+                .releaseDate(LocalDate.of(2022, 1, 1))
+                .duration(-1)
+                .build();
 
         ResponseEntity<Void> response = restTemplate.postForEntity("/films", film, Void.class);
 
@@ -35,11 +35,12 @@ class FilmControllerTest {
 
     @Test
     void createFilmShouldReturnBadRequestWhenFilmDescriptionIsTooLong() {
-        Film film = new Film();
-        film.setName("Test Film");
-        film.setDescription("A".repeat(201));
-        film.setReleaseDate(LocalDate.of(2022, 1, 1));
-        film.setDuration(90);
+        Film film = Film.builder()
+                .name("Test Film")
+                .description("A".repeat(201))
+                .releaseDate(LocalDate.of(2022, 1, 1))
+                .duration(90)
+                .build();
 
         ResponseEntity<Void> response = restTemplate.postForEntity("/films", film, Void.class);
 
@@ -48,11 +49,12 @@ class FilmControllerTest {
 
     @Test
     void createFilmShouldReturnBadRequestWhenReleaseDateIsBefore1895() {
-        Film film = new Film();
-        film.setName("Test Film");
-        film.setDescription("Test Description");
-        film.setReleaseDate(LocalDate.of(1894, 12, 31));
-        film.setDuration(90);
+        Film film = Film.builder()
+                .name("Test Film")
+                .description("Test Description")
+                .releaseDate(LocalDate.of(1894, 12, 31))
+                .duration(90)
+                .build();
 
         ResponseEntity<Void> response = restTemplate.postForEntity("/films", film, Void.class);
 
@@ -61,11 +63,12 @@ class FilmControllerTest {
 
     @Test
     void createFilmShouldReturnBadRequestWhenDurationIsNegative() {
-        Film film = new Film();
-        film.setName("Test Film");
-        film.setDescription("Test Description");
-        film.setReleaseDate(LocalDate.of(2022, 1, 1));
-        film.setDuration(-1);
+        Film film = Film.builder()
+                .name("Test Film")
+                .description("Test Description")
+                .releaseDate(LocalDate.of(2022, 1, 1))
+                .duration(-1)
+                .build();
 
         ResponseEntity<Void> response = restTemplate.postForEntity("/films", film, Void.class);
 
@@ -74,10 +77,11 @@ class FilmControllerTest {
 
     @Test
     void updateFilmShouldReturnBadRequestWhenFilmNameIsEmpty() {
-        Film film = new Film();
-        film.setDescription("Test Description");
-        film.setReleaseDate(LocalDate.of(2022, 1, 1));
-        film.setDuration(90);
+        Film film = Film.builder()
+                .description("Test Description")
+                .releaseDate(LocalDate.of(2022, 1, 1))
+                .duration(90)
+                .build();
 
         ResponseEntity<Void> response = restTemplate.exchange("/films", HttpMethod.PUT, new HttpEntity<>(film), Void.class);
 
@@ -86,11 +90,13 @@ class FilmControllerTest {
 
     @Test
     void testCreateFilmWithValidData() {
-        Film film = new Film();
-        film.setName("Test Film");
-        film.setDescription("This is a test film description");
-        film.setReleaseDate(LocalDate.of(2020, 1, 1));
-        film.setDuration(120);
+        Film film = Film.builder()
+                .name("Test Film")
+                .description("This is a test film description")
+                .releaseDate(LocalDate.of(2020, 1, 1))
+                .duration(120)
+                .mpaId(1)
+                .build();
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());

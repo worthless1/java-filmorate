@@ -1,15 +1,16 @@
 package ru.yandex.practicum.filmorate.model;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @EqualsAndHashCode(of = "id")
+@Builder
 public class Film {
 
     private int id;
@@ -31,7 +32,9 @@ public class Film {
     @NotNull(message = "Duration cannot be null")
     @Positive(message = "Duration must be a positive value")
     private int duration;
+    private Mpa mpa;
+    private SortedSet<Genre> genres;
 
-    Set<Integer> likes = new HashSet<>();
+    private List<Integer> likes;
 
 }

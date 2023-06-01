@@ -45,6 +45,7 @@ public class UserController {
         return userService.getUser(id);
     }
 
+    //friends
     @PutMapping("/{id}/friends/{friendId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addFriend(@PathVariable int id, @PathVariable int friendId) {

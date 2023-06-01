@@ -13,6 +13,7 @@ import java.time.Month;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static ru.yandex.practicum.filmorate.model.User.builder;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserControllerTest {
@@ -22,10 +23,11 @@ class UserControllerTest {
 
     @Test
     void createUserWithValidDataReturnsCreatedUser() {
-        User user = new User();
-        user.setEmail("test@example.com");
-        user.setLogin("testuser");
-        user.setBirthday(LocalDate.now().minusYears(20));
+        User user = builder()
+                .email("test@example.com")
+                .login("testuser")
+                .birthday(LocalDate.now().minusYears(20))
+                .build();
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
 
@@ -38,10 +40,11 @@ class UserControllerTest {
 
     @Test
     void createUserWithInvalidDataReturnsBadRequest() {
-        User user = new User();
-        user.setEmail("invalidemail");
-        user.setLogin("");
-        user.setBirthday(LocalDate.now().plusYears(1));
+        User user = builder()
+                .email("invalidemail")
+                .login("")
+                .birthday(LocalDate.now().plusYears(1))
+                .build();
 
         ResponseEntity<Void> response = restTemplate.postForEntity("/users", user, Void.class);
 
@@ -50,11 +53,12 @@ class UserControllerTest {
 
     @Test
     void createUserWithInvalidEmailShouldReturnBadRequest() {
-        User user = new User();
-        user.setEmail("invalid_email");
-        user.setLogin("test_login");
-        user.setName("Test Name");
-        user.setBirthday(LocalDate.of(2000, Month.JANUARY, 1));
+        User user = builder()
+                .email("invalid_email")
+                .login("test_login")
+                .name("Test Name")
+                .birthday(LocalDate.of(2000, Month.JANUARY, 1))
+                .build();
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
 
@@ -63,11 +67,12 @@ class UserControllerTest {
 
     @Test
     void createUserWithEmptyLoginShouldReturnBadRequest() {
-        User user = new User();
-        user.setEmail("test_email@test.com");
-        user.setLogin("");
-        user.setName("Test Name");
-        user.setBirthday(LocalDate.of(2000, Month.JANUARY, 1));
+        User user = builder()
+                .email("test_email@test.com")
+                .login("")
+                .name("Test Name")
+                .birthday(LocalDate.of(2000, Month.JANUARY, 1))
+                .build();
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
 
@@ -76,11 +81,12 @@ class UserControllerTest {
 
     @Test
     void createUserWithSpacesInLoginShouldReturnBadRequest() {
-        User user = new User();
-        user.setEmail("test_email@test.com");
-        user.setLogin("test login");
-        user.setName("Test Name");
-        user.setBirthday(LocalDate.of(2000, Month.JANUARY, 1));
+        User user = builder()
+                .email("test_email@test.com")
+                .login("test login")
+                .name("Test Name")
+                .birthday(LocalDate.of(2000, Month.JANUARY, 1))
+                .build();
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
 
@@ -89,11 +95,12 @@ class UserControllerTest {
 
     @Test
     void createUserWithEmptyNameShouldUseLoginAsName() {
-        User user = new User();
-        user.setEmail("test_email@test.com");
-        user.setLogin("test_login");
-        user.setName("");
-        user.setBirthday(LocalDate.of(2000, Month.JANUARY, 1));
+        User user = builder()
+                .email("test_email@test.com")
+                .login("test_login")
+                .name("")
+                .birthday(LocalDate.of(2000, Month.JANUARY, 1))
+                .build();
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
 
@@ -104,11 +111,12 @@ class UserControllerTest {
 
     @Test
     void createUserWithFutureBirthdayShouldReturnBadRequest() {
-        User user = new User();
-        user.setEmail("test_email@test.com");
-        user.setLogin("test_login");
-        user.setName("Test Name");
-        user.setBirthday(LocalDate.of(2025, Month.JANUARY, 1));
+        User user = builder()
+                .email("test_email@test.com")
+                .login("test_login")
+                .name("Test Name")
+                .birthday(LocalDate.of(2025, Month.JANUARY, 1))
+                .build();
 
         ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
 
