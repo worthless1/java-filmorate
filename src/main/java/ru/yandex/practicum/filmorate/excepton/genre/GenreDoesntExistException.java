@@ -7,4 +7,5 @@ public class GenreDoesntExistException extends FilmorateException {
     public GenreDoesntExistException(String errorMessage) {
         super(errorMessage, HttpStatus.NOT_FOUND);
     }
+
 }

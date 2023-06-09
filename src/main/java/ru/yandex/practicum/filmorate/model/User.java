@@ -1,6 +1,8 @@
 package ru.yandex.practicum.filmorate.model;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -8,9 +10,7 @@ import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 @Data
 @EqualsAndHashCode(of = "id")
@@ -31,8 +31,7 @@ public class User {
     @PastOrPresent(message = "Birthday cannot be in the future")
     LocalDate birthday;
 
-    Set<Integer> friends = new HashSet<>();
-
+    Map<Integer, Boolean> friends;
 
     // Getter for "name" field that returns "login" value if "name" is empty
     public String getName() {

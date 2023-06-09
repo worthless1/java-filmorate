@@ -25,7 +25,7 @@ class UserDbStorageTest {
     private final UserDbStorage userStorage;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         jdbcTemplate.update("INSERT INTO Users (Email, Login, Name, Birthday) VALUES (?, ?, ?, ?)",
                 "test@test.com", "login", "name", LocalDate.of(1999, 12, 12));
 
@@ -34,7 +34,7 @@ class UserDbStorageTest {
     }
 
     @AfterEach
-    void cleanUp(){
+    void cleanUp() {
         jdbcTemplate.update("DELETE FROM Users");
         jdbcTemplate.update("ALTER TABLE Users ALTER COLUMN User_id RESTART WITH 1");
     }
@@ -95,4 +95,5 @@ class UserDbStorageTest {
         assertEquals("name", testUser.getName());
         assertEquals(LocalDate.of(1999, 12, 12), testUser.getBirthday());
     }
+
 }

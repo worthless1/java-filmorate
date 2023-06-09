@@ -9,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Mpa;
 
 import java.time.LocalDate;
 
@@ -95,7 +96,7 @@ class FilmControllerTest {
                 .description("This is a test film description")
                 .releaseDate(LocalDate.of(2020, 1, 1))
                 .duration(120)
-                .mpaId(1)
+                .mpa(Mpa.builder().id(1).build())
                 .build();
 
         ResponseEntity<Film> response = restTemplate.postForEntity("/films", film, Film.class);

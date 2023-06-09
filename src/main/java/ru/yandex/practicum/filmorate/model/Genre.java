@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Data
 @Builder
-public class Genre implements Comparable<Genre>{
+public class Genre implements Comparable<Genre> {
     int id;
     String name;
 

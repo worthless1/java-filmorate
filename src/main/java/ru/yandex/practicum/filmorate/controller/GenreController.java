@@ -22,7 +22,6 @@ public class GenreController {
         this.genreService = genreService;
     }
 
-    //genres
     @GetMapping
     public List<Genre> getGenres() {
         return genreService.getGenres();
@@ -32,4 +31,5 @@ public class GenreController {
     public Genre getGenreById(@PathVariable int id) {
         return genreService.getGenreById(id);
     }
+
 }

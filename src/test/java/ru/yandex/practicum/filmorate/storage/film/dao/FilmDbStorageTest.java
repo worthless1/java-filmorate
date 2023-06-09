@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Mpa;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -46,7 +47,7 @@ class FilmDbStorageTest {
                 .description("testCreateMovie")
                 .releaseDate(LocalDate.of(2013, 3, 3))
                 .duration(333)
-                .mpaId(3)
+                .mpa(Mpa.builder().id(3).build())
                 .build();
 
         filmStorage.createFilm(film);
@@ -58,7 +59,7 @@ class FilmDbStorageTest {
         assertEquals("testCreateMovie", testFilm.getDescription());
         assertEquals(LocalDate.of(2013, 3, 3), testFilm.getReleaseDate());
         assertEquals(333, testFilm.getDuration());
-        assertEquals(3, testFilm.getMpaId());
+        assertEquals(3, testFilm.getMpa().getId());
 
     }
 
@@ -70,7 +71,7 @@ class FilmDbStorageTest {
                 .description("testUpdateFilm")
                 .releaseDate(LocalDate.of(2022, 2, 2))
                 .duration(333)
-                .mpaId(3)
+                .mpa(Mpa.builder().id(3).build())
                 .build();
 
         filmStorage.updateFilm(film);
@@ -81,7 +82,7 @@ class FilmDbStorageTest {
         assertEquals("testUpdateFilm", testFilm.getDescription());
         assertEquals(LocalDate.of(2022, 2, 2), testFilm.getReleaseDate());
         assertEquals(333, testFilm.getDuration());
-        assertEquals(3, testFilm.getMpaId());
+        assertEquals(3, testFilm.getMpa().getId());
     }
 
     @Test
@@ -101,6 +102,7 @@ class FilmDbStorageTest {
         assertEquals("description", testFilm.getDescription());
         assertEquals(LocalDate.of(2015, 11, 11), testFilm.getReleaseDate());
         assertEquals(111, testFilm.getDuration());
-        assertEquals(1, testFilm.getMpaId());
+        assertEquals(1, testFilm.getMpa().getId());
     }
+
 }

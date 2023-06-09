@@ -55,15 +55,23 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public void addFriend(int id, int friendId) {
-        User user = getUserById(id);
+    public void addFriend(int userId, int friendId) {
+        User user = getUserById(userId);
         User friend = getUserById(friendId);
         if (user != null && friend != null) {
-            user.getFriends().add(friendId);
-            friend.getFriends().add(id);
-            //update friend list
-            updateUser(user);
-            updateUser(friend);
+
+            //if the user has already received a friend request
+            if (user.getFriends().get(userId) != null) {
+                user.getFriends().put(friendId, true);
+                friend.getFriends().put(userId, true);
+                updateUser(user);
+                updateUser(friend);
+            } else {
+                friend.getFriends().put(userId, false);
+                //update friend list
+                updateUser(friend);
+            }
+
         } else {
             throw new UserDoesntExistException("User or friend with given id does not exist");
         }
@@ -71,12 +79,12 @@ public class InMemoryUserStorage implements UserStorage {
 
     //friends
     @Override
-    public void removeFriend(int id, int friendId) {
-        User user = getUserById(id);
+    public void removeFriend(int userId, int friendId) {
+        User user = getUserById(userId);
         User friend = getUserById(friendId);
         if (user != null && friend != null) {
             user.getFriends().remove(friendId);
-            friend.getFriends().remove(id);
+            friend.getFriends().remove(userId);
             //update friend list
             updateUser(user);
             updateUser(friend);
@@ -87,18 +95,24 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public List<User> getFriends(int id) {
-        return getUserById(id).getFriends().stream()
-                .map(this::getUserById)
+        User user = getUserById(id);
+        if (user == null) {
+            return Collections.emptyList();
+        }
+
+        return user.getFriends().entrySet().stream()
+                .filter(Map.Entry::getValue)
+                .map(entry -> getUserById(entry.getKey()))
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<User> getCommonFriends(int id, int otherId) {
-        Set<Integer> commonFriends = new HashSet<>(getUserById(id).getFriends());
-        commonFriends.retainAll(getUserById(otherId).getFriends());
-        return commonFriends.stream()
-                .map(this::getUserById)
-                .collect(Collectors.toList());
+        List<User> friends = getFriends(id);
+        List<User> otherFriends = getFriends(otherId);
+
+        return friends.stream().filter(otherFriends::contains).collect(Collectors.toList());
     }
 
 }

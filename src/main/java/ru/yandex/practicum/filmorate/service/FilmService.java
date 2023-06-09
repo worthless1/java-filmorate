@@ -35,16 +35,16 @@ public class FilmService {
     }
 
     //likes
-    public void  addLike(int id, int userId) {
-
+    public void  addLike(int filmId, int userId) {
+        filmStorage.addLike(filmId, userId);
     }
 
-    public void removeLike(int id, int userId) {
-
+    public void removeLike(int filmId, int userId) {
+        filmStorage.removeLike(filmId, userId);
     }
 
     public List<Film> getPopularFilms(int count) {
-      return null;
+      return filmStorage.getPopularFilms(count);
     }
 
 }
