@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS mpa_ratings
 (
     mpa_id IDENTITY PRIMARY KEY,
-    name   varchar
+    name   varchar(20)
 );
 
 CREATE TABLE IF NOT EXISTS films
 (
     film_id     IDENTITY PRIMARY KEY,
-    name        varchar,
+    name        varchar(32),
     description varchar,
     releaseDate date,
     duration    integer,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS films
 CREATE TABLE IF NOT EXISTS genres
 (
     genre_id   IDENTITY PRIMARY KEY,
-    genre_name varchar
+    genre_name varchar(15)
 );
 
 CREATE TABLE IF NOT EXISTS film_genres
@@ -32,9 +32,9 @@ CREATE TABLE IF NOT EXISTS film_genres
 CREATE TABLE IF NOT EXISTS users
 (
     user_id  IDENTITY PRIMARY KEY,
-    email    varchar,
-    login    varchar,
-    name     varchar,
+    email    varchar(50),
+    login    varchar(32),
+    name     varchar(20),
     birthday date
 );
 

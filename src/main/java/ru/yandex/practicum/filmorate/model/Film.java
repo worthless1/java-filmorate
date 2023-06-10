@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.model;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.Transient;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -34,7 +35,7 @@ public class Film {
     private int duration;
     private Mpa mpa;
     private SortedSet<Genre> genres;
-
+    @Transient
     private List<Integer> likes;
 
 }
