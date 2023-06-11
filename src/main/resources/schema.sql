@@ -56,6 +56,15 @@ CREATE TABLE IF NOT EXISTS user_friends
     FOREIGN KEY (friend_id) REFERENCES users (user_id)
 );
 
+DELETE FROM user_friends;
+DELETE FROM film_genres;
+DELETE FROM film_likes;
+DELETE FROM films;
+DELETE FROM users;
+ALTER TABLE users ALTER COLUMN user_id RESTART WITH 1;
+ALTER TABLE films ALTER COLUMN film_id RESTART WITH 1;
+
+
 MERGE INTO mpa_ratings
     KEY (mpa_id)
     VALUES (1, 'G'),
