@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controller;
+package ru.yandex.practicum.filmorate.controller.handler;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,4 +14,5 @@ public class FilmorateErrorHandler {
     protected ResponseEntity<Object> handleFilmorateException(final FilmorateException ex) {
         return ResponseEntity.status(ex.getHttpStatus()).body(Map.of("error message ", ex.getErrorMessage()));
     }
+
 }

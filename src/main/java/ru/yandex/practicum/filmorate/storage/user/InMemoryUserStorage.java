@@ -1,14 +1,12 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.excepton.UserAlreadyExistException;
-import ru.yandex.practicum.filmorate.excepton.UserDoesntExistException;
+import ru.yandex.practicum.filmorate.excepton.user.UserAlreadyExistException;
+import ru.yandex.practicum.filmorate.excepton.user.UserDoesntExistException;
 import ru.yandex.practicum.filmorate.model.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class InMemoryUserStorage implements UserStorage {
@@ -54,6 +52,67 @@ public class InMemoryUserStorage implements UserStorage {
         } else {
             throw new UserDoesntExistException("This user does not exists");
         }
+    }
+
+    @Override
+    public void addFriend(int userId, int friendId) {
+        User user = getUserById(userId);
+        User friend = getUserById(friendId);
+        if (user != null && friend != null) {
+
+            //if the user has already received a friend request
+            if (user.getFriends().get(userId) != null) {
+                user.getFriends().put(friendId, true);
+                friend.getFriends().put(userId, true);
+                updateUser(user);
+                updateUser(friend);
+            } else {
+                friend.getFriends().put(userId, false);
+                //update friend list
+                updateUser(friend);
+            }
+
+        } else {
+            throw new UserDoesntExistException("User or friend with given id does not exist");
+        }
+    }
+
+    //friends
+    @Override
+    public void removeFriend(int userId, int friendId) {
+        User user = getUserById(userId);
+        User friend = getUserById(friendId);
+        if (user != null && friend != null) {
+            user.getFriends().remove(friendId);
+            friend.getFriends().remove(userId);
+            //update friend list
+            updateUser(user);
+            updateUser(friend);
+        } else {
+            throw new UserDoesntExistException("User or friend with given id does not exist");
+        }
+    }
+
+    @Override
+    public List<User> getFriends(int id) {
+        User user = getUserById(id);
+        if (user == null) {
+            return Collections.emptyList();
+        }
+
+        return user.getFriends().entrySet().stream()
+                .filter(Map.Entry::getValue)
+                .map(entry -> getUserById(entry.getKey()))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<User> getCommonFriends(int id, int otherId) {
+        List<User> friends = getFriends(id);
+        List<User> otherFriends = getFriends(otherId);
+
+        return friends.stream().filter(otherFriends::contains).collect(Collectors.toList());
     }
 
 }

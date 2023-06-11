@@ -24,6 +24,7 @@ public class FilmController {
         this.filmService = filmService;
     }
 
+    //films
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Film createFilm(@Valid @RequestBody Film film) {
@@ -45,6 +46,7 @@ public class FilmController {
         return filmService.getFilm(id);
     }
 
+    //likes
     @PutMapping("/{id}/like/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addLike(@PathVariable int id, @PathVariable int userId) {
